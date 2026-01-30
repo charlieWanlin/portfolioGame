@@ -3,12 +3,12 @@
 **Portfolio interactif sous forme de mini-jeu RPG développé en HTML, CSS et JavaScript pur.**
 
 <p align="center">
-  <img src="img/gameboy-V2.png" width="400px" alt="Gameplay Overview" />
+  <img src="img/gameboy-v2.png" width="400px" alt="Gameplay Overview" />
 </p>
 
 <p align="center">
-  <a href="#"><strong>Jouer maintenant</strong></a> •
-  <a href="#"><strong>Code source</strong></a>
+  <a href="https://charliewanlin.github.io/portfolioGame/"><strong>Jouer maintenant</strong></a> •
+  <a href="https://github.com/charlieWanlin/portfolioGame.git"><strong>Code source</strong></a>
 </p>
 
 ---
@@ -75,7 +75,7 @@ Explorez mon parcours professionnel à travers une aventure RPG old-school ! Dé
 </tr>
 <tr>
 <td align="center">
-<img src="img/mobile-v1.png" width="375px" height="667px" alt="Version 1.0" />
+<img src="img/mobile-V1.png" width="375px" height="667px" alt="Version 1.0" />
 </td>
 <td align="center">
 <img src="img/mobile-v2.png" width="375px" height="667px" alt="Version 2.0" />
