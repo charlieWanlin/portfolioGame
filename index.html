@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Le portfolio de Charlie</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="./img/favicon.png" />
+
+    <!-- Howler.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  </head>
+  <body>
+    <!-- La Gameboy  -->
+    <div class="conteneurGameboy">
+      <div class="zoneEcran">
+        <div class="texteGameboyColor">
+          <span class="partieGameboy">GAME BOY </span>
+          <span class="partieColor">
+            <span>C</span><span>O</span><span>L</span><span>O</span
+            ><span>R</span>
+          </span>
+        </div>
+        <div class="indicateurPower">
+          <div class="ledPower"></div>
+          <div class="iconesBatterie">
+            <div class="iconeBatterie"></div>
+            <div class="iconeBatterie"></div>
+            <div class="iconeBatterie"></div>
+          </div>
+          <span class="textePower">POWER</span>
+        </div>
+
+        <div class="ecran">
+          <div class="ecranNoir"></div>
+          <video id="introVideo" class="intro-video" muted playsinline autoplay>
+            <source src="./videos/introGameboyAdvance.mp4" type="video/mp4" />
+            <!-- Fallback si pas de vidéo -->
+            Votre navigateur ne supporte pas la vidéo.
+          </video>
+          <div class="conteneurCanvas">
+            <canvas id="canvasJeu"></canvas>
+
+            <!-- Menu hamburger -->
+            <div id="hamburger">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill="white" d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" />
+              </svg>
+            </div>
+
+            <!-- ========================================
+               MENU DÉROULANT
+               ======================================== -->
+            <div id="menu">
+              <h2>Menu</h2>
+
+              <!-- Section Commandes -->
+              <div class="menu-section">
+                <h3>Commandes</h3>
+                <ul>
+                  <li>Z : Haut</li>
+                  <li>S : Bas</li>
+                  <li>Q : Gauche</li>
+                  <li>D : Droite</li>
+                  <li>A : Interagir</li>
+                </ul>
+              </div>
+
+              <!-- Boutons du menu -->
+              <div class="menu-button">
+                <button id="demarrageButton">Retour a <br />l'Accueil</button>
+                <button id="closeMenu">Fermer le Menu</button>
+              </div>
+            </div>
+
+            <!-- Conteneur des cœurs -->
+            <div class="health-container">
+              <div class="heart-hud">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                  />
+                </svg>
+              </div>
+              <div class="heart-hud">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                  />
+                </svg>
+              </div>
+              <div class="heart-hud">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="inventaire">
+              <div class="inventaire-item hidden" data-item="cle">
+                <img src="img/key.png" alt="Clé" class="inventaire-img" />
+              </div>
+              <div class="inventaire-item hidden" data-item="parchemin">
+                <img
+                  src="img/parchemin.png"
+                  alt="Parchemin"
+                  class="inventaire-img"
+                />
+              </div>
+            </div>
+
+            <!-- ========================================
+                OVERLAY SIMPLE (OBJETS : coffre, clé, parchemin)
+                Fond transparent, jeu visible en arrière-plan
+                ======================================== -->
+            <div id="simple-overlay" class="simple-overlay hidden">
+              <div class="simple-box">
+                <p id="simple-message" class="simple-message"></p>
+                <button id="readMotivationLetter" class="simple-btn hidden">
+                  (B) Lire la lettre
+                </button>
+                <button id="simple-close-btn" class="simple-btn">
+                  Appuyez ici
+                </button>
+              </div>
+            </div>
+
+            <!-- ========================================
+                OVERLAY DIALOGUE (PERSONNAGES : lapin, papi)
+                Fond transparent, bulle avec nom du personnage
+                ======================================== -->
+            <div id="dialogue-overlay" class="dialogue-overlay hidden">
+              <div class="dialogue-box">
+                <!-- En-tête : Nom + Icône -->
+                <div class="dialogue-header">
+                  <div id="dialogue-icon" class="dialogue-icon"></div>
+                  <h3 id="dialogue-name" class="dialogue-name">Personnage</h3>
+                </div>
+
+                <!-- Message principal -->
+                <div class="dialogue-content">
+                  <p id="dialogue-message" class="dialogue-message"></p>
+                </div>
+
+                <!-- Bouton en bas -->
+                <div class="dialogue-footer">
+                  <button id="dialogue-close-btn" class="dialogue-btn">
+                    <span class="btn-key"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Overlay À Propos optimisé -->
+            <div id="apropos-overlay" class="apropos-overlay hidden">
+              <div class="apropos-container">
+                <div class="apropos-header">
+                  <h1>À PROPOS</h1>
+                  <p>Développeur Web Full-Stack Junior</p>
+                </div>
+
+                <div class="apropos-content">
+                  <!-- Profil -->
+                  <section>
+                    <h2>Mon Parcours</h2>
+                    <p>
+                      Après avoir exercé comme plaquiste-enduiseur puis
+                      conseiller client, j'ai décidé de reprendre mes études
+                      pour me lancer dans l'univers de l'informatique.
+                      Aujourd'hui, je suis plus motivé que jamais pour apprendre
+                      ce métier et développer mes compétences en développement
+                      web. Actuellement en formation de 10 mois à Lille (Real
+                      Conseil, financée par la région Hauts-de-France), je
+                      recherche un stage pour mettre en pratique mes acquis en
+                      environnement professionnel.
+                    </p>
+                  </section>
+
+                  <!-- Stack technique actuelle -->
+                  <section>
+                    <h2>Stack Technique</h2>
+                    <p>
+                      Une fois que j'aurai vu l'ensemble de mon programme de
+                      formation, je compte privilégier 2 stacks (une front et
+                      une back) avec leurs frameworks respectifs plutôt que de
+                      me disperser. Cependant, ma curiosité et ma capacité
+                      d'apprentissage rapide me permettent de m'adapter à
+                      d'autres technologies selon les besoins du projet.
+                    </p>
+
+                    <h3>Maîtrise actuelle :</h3>
+                    <ul class="skills-list">
+                      <li>
+                        <img src="img/html-logo.png" alt="HTML5" />
+                        <img src="img/css-logo.png" /> HTML5 / CSS3
+                      </li>
+                      <li>
+                        <img
+                          src="img/tailwind CSS-logo.jpeg"
+                          alt="tailwind-CSS"
+                        />Tailwind CSS (en cours d'acquisition)
+                      </li>
+                      <li>
+                        <img src="img/javascript-logo.png" alt="JS" />
+                        JavaScript (en cours d'acquisition)
+                      </li>
+                      <li>
+                        <img src="img/responsive-logo.png" alt="Responsive" />
+                        Responsive Design
+                      </li>
+                      <li>
+                        <img src="img/github.png" alt="Git" /> Git / GitHub
+                      </li>
+                    </ul>
+
+                    <h3>En cours d'apprentissage :</h3>
+                    <ul class="skills-list">
+                      <li>
+                        <img src="img/react.png" alt="React" />
+                        <img src="img/angular-logo.png" alt="Angular" />
+                        React ou Angular
+                      </li>
+                      <li>
+                        <img src="img/php-logo.png" alt="PHP" /> PHP / Symfony
+                      </li>
+                      <li>
+                        <img src="img/mysql-logo.png" alt="SQL" /> MySQL / SQL
+                      </li>
+                      <li><img src="img/rest api.png" alt="API" /> API REST</li>
+                      <li>
+                        <img src="img/security-web.png" alt="Sécurité" />
+                        Sécurité Web (authentification, OWASP)
+                      </li>
+                    </ul>
+                  </section>
+
+                  <!-- Objectifs stage -->
+                  <section>
+                    <h2>Objectifs de Stage</h2>
+                    <p>
+                      Je recherche une entreprise pour consolider mes acquis et
+                      participer activement à des projets concrets :
+                    </p>
+                    <ul class="skills-list">
+                      <li>
+                        Développer des fonctionnalités front-end et back-end
+                      </li>
+                      <li>Travailler sur un code propre et maintenable</li>
+                      <li>
+                        Comprendre les workflows d'équipe (Git, revues de code,
+                        méthodologies agiles)
+                      </li>
+                      <li>
+                        Découvrir les bonnes pratiques DevOps (CI/CD,
+                        conteneurisation)
+                      </li>
+                    </ul>
+                    <p>
+                      <strong>Projet fil rouge :</strong> Développement d'un
+                      réseau social cinéma avec fonctionnalités avancées (feed
+                      social, messagerie temps réel, système de rooms en ligne,
+                      paiements sécurisés, recommandations personnalisées).
+                      Stack envisagée : React, Symfony, MySQL, WebSocket, Stripe
+                      API, et possiblement Unity ou Three.js pour les mini-jeux.
+                    </p>
+                  </section>
+
+                  <!-- Vision long terme -->
+                  <section>
+                    <h2>Vision Professionnelle</h2>
+                    <p>
+                      Mon objectif : devenir
+                      <strong>développeur full-stack</strong> avec une
+                      spécialisation progressive vers le
+                      <strong>DevOps et le Cloud</strong> (Docker, Kubernetes,
+                      AWS/Azure).
+                    </p>
+                    <p>
+                      Après cette formation et ce stage, je souhaite poursuivre
+                      avec une licence professionnelle DevOps ou un CDA,
+                      complétée par des certifications cloud (AWS, Docker,
+                      Kubernetes), afin d’approfondir mes compétences techniques
+                      et de contribuer à des architectures modernes et
+                      scalables. J’aimerais également apprendre C# et .NET, car
+                      ces technologies sont largement utilisées dans le
+                      développement de logiciels Microsoft et de jeux vidéo, et
+                      offrent un large éventail d’opportunités professionnelles,
+                      comparé à des frameworks comme PHP/Symfony, qui pourraient
+                      être plus restrictifs, même si je souhaite me forger une
+                      véritable opinion après les avoir pratiqués.
+                    </p>
+                  </section>
+
+                  <!-- Ce que j'apporte -->
+                  <section>
+                    <h2>Mes Atouts</h2>
+                    <ul class="skills-list">
+                      <li>
+                        <strong>Autonomie</strong> : Capacité à chercher,
+                        apprendre et résoudre par moi-même
+                      </li>
+                      <li>
+                        <strong>Esprit d'équipe</strong> : Expérience du travail
+                        collaboratif et de l'entraide
+                      </li>
+                      <li>
+                        <strong>Rigueur</strong> : Respect des délais, code
+                        structuré et documenté
+                      </li>
+                      <li>
+                        <strong>Curiosité</strong> : Veille technologique active
+                        (newsletters, documentation)
+                      </li>
+                      <li>
+                        <strong>Adaptabilité</strong> : Apprentissage rapide de
+                        nouveaux outils et frameworks
+                      </li>
+                    </ul>
+                  </section>
+                </div>
+
+                <div class="apropos-footer">
+                  <button id="apropos-close-btn" class="apropos-btn">
+                    Retour
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Overlay Making Of avec galerie d'images -->
+            <div id="makingof-overlay" class="makingof-overlay hidden">
+              <div class="makingof-container">
+                <div class="makingof-header">
+                  <h1>MAKING OF</h1>
+                  <p>Mon Portfolio Interactif</p>
+                </div>
+
+                <div class="makingof-content">
+                  <section>
+                    <h2>Origine du projet</h2>
+                    <p>
+                      L'idée est née en regardant une vidéo YouTube sur la
+                      création d'un jeu type Pokémon, alors que je débutais ma
+                      formation en développement web. Plutôt que de créer un
+                      portfolio classique, j'ai voulu réaliser quelque chose de
+                      vivant et interactif.
+                    </p>
+                    <p>
+                      Je me suis inspiré de RPG comme Final Fantasy Tactics,
+                      Secret of Mana ou Golden Sun, tant pour le gameplay, le
+                      visuel que le son. Transformer mon portfolio en petit jeu
+                      d'exploration était donc la rencontre entre ma passion
+                      pour le jeu vidéo et mon apprentissage du développement
+                      web.
+                    </p>
+
+                    <!-- Galerie d'images -->
+                    <div class="image-gallery">
+                      <img
+                        src="img/secret-of-mana.jpg"
+                        alt="RPG inspirations"
+                        class="gallery-image"
+                      />
+                      <p class="image-caption">
+                        Inspirations : Final Fantasy Tactics, Secret of Mana
+                      </p>
+                    </div>
+                  </section>
+
+                  <section>
+                    <h2>Objectif du projet</h2>
+                    <ul>
+                      <li>
+                        Créer un univers interactif capable de surprendre et de
+                        divertir, avec quelques clins d'œil à la pop culture
+                        comme Matrix.
+                      </li>
+                      <li>
+                        Présenter mes compétences sérieusement tout en me
+                        différenciant.
+                      </li>
+                      <li>
+                        Travailler sur un projet ambitieux pour mieux comprendre
+                        et appliquer les bases du développement web dans un
+                        contexte concret.
+                      </li>
+                    </ul>
+                  </section>
+
+                  <section>
+                    <h2>Stack technique</h2>
+                    <p>
+                      Le projet a été réalisé en HTML, CSS et JavaScript pur,
+                      sans framework. J'apprécie particulièrement le CSS natif
+                      moderne (variables CSS, nesting, Grid, Flexbox) qui offre
+                      aujourd'hui une puissance et une flexibilité remarquables.
+                      Avant d'adopter Tailwind CSS pour mes prochains projets,
+                      j'ai comparé Bootstrap et préféré Tailwind pour la liberté
+                      et le contrôle qu'il offre sur le CSS, tout en consolidant
+                      mes bases sur les fondamentaux du web.
+                    </p>
+                  </section>
+
+                  <section>
+                    <h2>Stack et réalisations</h2>
+                    <p>
+                      Le jeu est responsive et jouable au clavier, pad ou
+                      tactile.
+                    </p>
+
+                    <h3>PNJ et déplacements</h3>
+                    <ul>
+                      <li>Collisions gérées via JSON.</li>
+                      <li>
+                        Déplacements automatiques des PNJ avec animations par
+                        frames.
+                      </li>
+                      <li>
+                        Objets interactifs (coffres, clés, parchemins)
+                        déclenchent sons et bloquent les déplacements lors des
+                        messages.
+                      </li>
+                    </ul>
+
+                    <!-- Galerie d'images -->
+                    <div class="image-gallery">
+                      <img
+                        src="img/Collision.png"
+                        alt="Map et collisions dans Tiled"
+                        class="gallery-image"
+                      />
+                      <p class="image-caption">
+                        Éditeur de map Tiled avec système de collisions JSON
+                      </p>
+                    </div>
+
+                    <div class="image-gallery">
+                      <img
+                        src="img/player2Down.png"
+                        alt="Spritesheet personnage"
+                        class="gallery-image"
+                      />
+                      <p class="image-caption">
+                        Spritesheet du personnage - animations de déplacement
+                      </p>
+                    </div>
+
+                    <h3>Objets et inventaire</h3>
+                    <ul>
+                      <li>
+                        Items créés dynamiquement et intégrés dans un inventaire
+                        visuel.
+                      </li>
+                      <li>Sons adaptés selon l'état du jeu.</li>
+                      <li>
+                        Sprites découpés pour gérer l'animation frame par frame.
+                      </li>
+                    </ul>
+
+                    <!-- Galerie d'images - 3 items côte à côte -->
+                    <div class="items-gallery">
+                      <div class="item-image">
+                        <img
+                          src="img/inventaire.png"
+                          alt="Système d'inventaire"
+                          class="gallery-image"
+                        />
+                        <p class="image-caption">
+                          Interface de l'inventaire in-game
+                        </p>
+                      </div>
+                      <div class="item-image">
+                        <img
+                          src="img/coffre.png"
+                          alt="Sprites des coffres"
+                          class="gallery-image"
+                        />
+                        <p class="image-caption">Sprite du coffre</p>
+                      </div>
+                      <div class="item-image">
+                        <img
+                          src="img/key.png"
+                          alt="Sprites des clés et parchemins"
+                          class="gallery-image"
+                        />
+                        <p class="image-caption">La Clé</p>
+                      </div>
+                    </div>
+
+                    <h3>Design et interface</h3>
+                    <ul>
+                      <li>
+                        Style inspiré de la Gameboy Color, reproduit en CSS et
+                        adapté au ratio 16/9.
+                      </li>
+                      <li>
+                        Layers et z-index organisés pour assurer la cohérence
+                        graphique.
+                      </li>
+                      <li>
+                        Menus et overlays générés dynamiquement via JavaScript.
+                      </li>
+                    </ul>
+
+                    <!-- Galerie d'images -->
+                    <div class="image-gallery">
+                      <img
+                        src="img/gameboy-color.avif"
+                        alt="Design Gameboy"
+                        class="gallery-image"
+                      />
+                      <p class="image-caption">
+                        Interface style Gameboy Color intégrée en CSS
+                      </p>
+                    </div>
+                  </section>
+
+                  <section>
+                    <h2>Création de la map et des ressources</h2>
+                    <ul>
+                      <li>
+                        Map et collisions réalisées avec Tiled, export JSON pour
+                        le code.
+                      </li>
+                      <li>
+                        Visuels et sprites créés ou modifiés avec Piskel, GIMP,
+                        Paint, et ressources libres de droits sur Pixabay,
+                        itch.io, OpenGameArt.org et Freepik.
+                      </li>
+                      <li>
+                        Audio : musiques et sons adaptés à l'ambiance RPG,
+                        intégrés avec Howler.js.
+                      </li>
+                      <li>
+                        Outils et workflow : VS Code pour le code, IA (Claude,
+                        ChatGPT, Copilot) pour l'aide et l'optimisation, MDN et
+                        cours de formation pour les références.
+                      </li>
+                    </ul>
+
+                    <!-- Galerie d'images -->
+                    <div class="image-gallery">
+                      <img
+                        src="img/piskel.png"
+                        alt="Éditeur Piskel"
+                        class="gallery-image"
+                      />
+                      <p class="image-caption">
+                        Création de sprites pixel art avec Piskel
+                      </p>
+                    </div>
+                  </section>
+
+                  <section>
+                    <h2>Ce que ce projet m'a apporté</h2>
+                    <ul>
+                      <li>
+                        Structurer un projet proprement et améliorer un projet
+                        existant.
+                      </li>
+                      <li>Chercher des solutions de manière autonome.</li>
+                      <li>
+                        Expérimenter différentes approches avant de choisir la
+                        meilleure.
+                      </li>
+                      <li>
+                        Persévérer et accepter de ne pas tout comprendre
+                        immédiatement.
+                      </li>
+                    </ul>
+                  </section>
+
+                  <section>
+                    <h2>Version 1 → Version 2</h2>
+
+                    <h3>Version 1</h3>
+                    <ul>
+                      <li>Pas de PNJ ni d'interactions.</li>
+                      <li>Un coffre mais pas de sons ni d'inventaire.</li>
+                      <li>
+                        Interface non responsive, code dans un seul fichier.
+                      </li>
+                      <li>Menu et overlays gérés en CSS.</li>
+                      <li>
+                        Pas de design type Gameboy, fonctionnalités limitées.
+                      </li>
+                    </ul>
+
+                    <h3>Version 2</h3>
+                    <ul>
+                      <li>Ajout de PNJ et d'interactions.</li>
+                      <li>
+                        Sons pour coffres et objets, cohérents selon l'état du
+                        jeu.
+                      </li>
+                      <li>
+                        Full responsive, approche mobile first pour tous
+                        supports.
+                      </li>
+                      <li>
+                        Design Gameboy intégré, overlays et menus générés en
+                        JavaScript.
+                      </li>
+                      <li>
+                        Modules ES6 pour un code structuré et maintenable.
+                      </li>
+                    </ul>
+
+                    <!-- Galerie d'images - Comparaison V1 vs V2 -->
+                    <div class="image-comparison">
+                      <div class="comparison-item">
+                        <img
+                          src="img/mobile-V1.png"
+                          alt="Version 1"
+                          class="gallery-image"
+                        />
+                        <p class="image-caption">
+                          Version 1 - Interface basique
+                        </p>
+                      </div>
+                      <div class="comparison-item">
+                        <img
+                          src="img/mobile-v2.png"
+                          alt="Version 2"
+                          class="gallery-image"
+                        />
+                        <p class="image-caption">
+                          Version 2 - Design Gameboy & responsive
+                        </p>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section>
+                    <h2>Vers une Version 3</h2>
+                    <ul>
+                      <li>Système de combat ou mini-jeux.</li>
+                      <li>Ajout de nouveaux PNJ et dialogues.</li>
+                      <li>
+                        Agrandissement des maps et création de nouvelles pièces
+                        interactives.
+                      </li>
+                      <li>
+                        Plus d'interactions avec les éléments et PNJ existants.
+                      </li>
+                      <li>
+                        Utilisation éventuelle d'un framework ou moteur de jeu
+                        (Unity / Unreal Engine).
+                      </li>
+                    </ul>
+                  </section>
+
+                  <section>
+                    <h2>Conclusion</h2>
+                    <p>
+                      Ce projet reflète mon niveau actuel, ma créativité et ma
+                      capacité à apprendre de manière autonome. Il montre ma
+                      progression, ma curiosité technique et ma motivation à
+                      continuer à évoluer dans le développement web.
+                    </p>
+                  </section>
+                </div>
+
+                <div class="makingof-footer">
+                  <button id="makingof-close-btn" class="makingof-btn">
+                    Retour
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="containerLogoNintendo">
+        <div class="logoNintendoBas">Ninvento</div>
+      </div>
+
+      <div class="hautParleurs">
+        <div class="grilleHautParleur">
+          <!-- Ligne 1 : 6 trous -->
+          <div class="ligneHautParleur">
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+          </div>
+
+          <!-- Ligne 2 : 8 trous -->
+          <div class="ligneHautParleur">
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+          </div>
+
+          <!-- Ligne 3 : 8 trous -->
+          <div class="ligneHautParleur">
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+          </div>
+
+          <!-- Ligne 4 : 8 trous -->
+          <div class="ligneHautParleur">
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+          </div>
+
+          <!-- Ligne 5 : 8 trous -->
+          <div class="ligneHautParleur">
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+          </div>
+
+          <!-- Ligne 6 : 8 trous -->
+          <div class="ligneHautParleur">
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+          </div>
+
+          <!-- Ligne 7 : 8 trous -->
+          <div class="ligneHautParleur">
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+          </div>
+
+          <!-- Ligne 8 : 6 trous -->
+          <div class="ligneHautParleur">
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+            <div class="trouHautParleur enfonce"></div>
+            <div class="trouHautParleur"></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls-zone">
+        <div class="dpad">
+          <button class="dpad-btn dpad-up" data-direction="up"></button>
+          <button class="dpad-btn dpad-down" data-direction="down"></button>
+          <button class="dpad-btn dpad-left" data-direction="left"></button>
+          <button class="dpad-btn dpad-right" data-direction="right"></button>
+          <div class="dpad-center"></div>
+        </div>
+
+        <div class="boutonsAB">
+          <button class="boutonCirculaire" data-bouton="b">B</button>
+          <button class="boutonCirculaire" data-bouton="a">A</button>
+        </div>
+      </div>
+
+      <div class="zoneSelectStart">
+        <div>
+          <button class="boutonPetit" data-bouton="select"></button>
+          <div class="labelBouton">Select</div>
+        </div>
+        <div>
+          <button class="boutonPetit" data-bouton="start"></button>
+          <div class="labelBouton">Start</div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin de la Gameboy  -->
+
+    <!-- Le js -->
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
