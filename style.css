@@ -1,0 +1,1102 @@
+/* ========================================
+   RESET ET STYLES GÉNÉRAUX
+   ======================================== */
+
+html {
+  overflow: hidden; /* Empêche tout scroll au niveau de la page */
+}
+
+body {
+  background: #ffcc99;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden; /* Bloque le scroll horizontal */
+  overflow-y: hidden; /* Bloque le scroll vertical pour éviter les mouvements indésirables sur mobile */
+  touch-action: none; /* Désactive les gestes tactiles natifs pour une meilleure expérience de jeu */
+}
+
+/* ========================================
+   DÉFINITION DES POLICES
+   ======================================== */
+
+.russo-one-regular {
+  font-family: "Russo One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.press-start-2p-regular {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ========================================
+   ÉCRAN DE DÉMARRAGE
+   ======================================== */
+
+#startScreen {
+  position: fixed;
+  inset: 0;
+  background-image: url("./img/startScreen.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  max-width: 100%;
+}
+
+.game-title {
+  font-family: "Press Start 2P";
+  text-align: center;
+  color: #5fd4f1;
+  font-size: 3rem;
+  text-shadow: 3px 3px 0 #000;
+  line-height: 1.6;
+}
+
+.character-choice {
+  display: flex;
+  justify-content: center;
+  gap: 15%;
+  margin-bottom: 25px;
+}
+
+.character-choice button {
+  font-family: "Press Start 2P";
+  font-size: 1.2rem;
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 3px solid #2dc7ee;
+  background: #fff8e7;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.4s ease-in-out;
+}
+
+.character-choice button:hover {
+  background: #5fd4f1;
+  color: #fff8e7;
+  transform: scale(1.2);
+}
+
+#startGameBtn {
+  position: absolute;
+  bottom: 10%;
+  font-family: "Press Start 2P";
+  font-size: 1.5rem;
+  padding: 15px 30px;
+  border-radius: 14px;
+  border: none;
+  background: #2dc7ee;
+  color: black;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3s ease-in-out;
+}
+
+#startGameBtn:hover {
+  background: #2dc7ee;
+  color: #fff8e7;
+  box-shadow: 0 0 15px rgba(45, 199, 238, 0.6);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.buttonMusic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.buttonMusic button {
+  font-family: "Press Start 2P";
+  font-size: 1.3rem;
+  border-radius: 12px;
+  border: 3px solid #2dc7ee;
+  background: #fff8e7;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+}
+
+.buttonMusic button:hover {
+  background: #5fd4f1;
+  color: #fff8e7;
+  transform: scale(1.2);
+}
+
+/* ========================================
+   PAGE DE JEU PRINCIPALE
+   ======================================== */
+
+.title {
+  font-size: 2.5rem;
+  color: #5fd4f1;
+  display: flex;
+  justify-content: center;
+}
+
+.game_and_button {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+
+.game-container {
+  border: 9px solid #2dc7ee;
+  border-radius: 20px;
+  width: 100%;
+  height: 70vh;
+  margin: 0;
+  background-color: #fff8e7;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  z-index: 19;
+  position: relative;
+}
+
+#needInternship {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+/* ========================================
+   HUD (INTERFACE DE JEU)
+   ======================================== */
+
+#hud {
+  position: absolute;
+  top: 5%;
+  right: 3%;
+}
+
+#hud img {
+  height: auto;
+  width: 140px;
+}
+
+/* ========================================
+   MENU HAMBURGER
+   ======================================== */
+
+#hamburger {
+  position: absolute;
+  top: 3%;
+  left: 3%;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  z-index: 18;
+}
+
+#menu {
+  position: absolute;
+  top: 0;
+  right: -300px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.87);
+  border-radius: 12px;
+  color: white;
+  transition: right 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+#menu.show {
+  right: 0;
+  opacity: 0.8;
+  transform: translateX(0);
+}
+
+#menu h2 {
+  font-size: 3.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.menu-section h3 {
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.menu-section ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  gap: 5%;
+  font-size: 1.6rem;
+}
+
+.menu-volume {
+  display: flex;
+  justify-content: center;
+  margin: 7%;
+  font-size: 2rem;
+}
+
+.menu-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.menu-button button {
+  bottom: 10px;
+  width: 30%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.menu-button button:hover {
+  background: #000000;
+  color: #e4e4e4;
+  box-shadow: 0 0 15px rgba(45, 199, 238, 0.6);
+}
+
+/* ========================================
+   BOUTON RETOUR À L'ACCUEIL
+   ======================================== */
+
+.retourAccueil {
+  margin: 30px auto;
+  display: block;
+  font-family: "Press Start 2P", system-ui;
+  font-size: 1.5rem;
+  padding: 12px 24px;
+  border-radius: 15px;
+  border: none;
+  background-color: #2dc7ee;
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.retourAccueil:hover {
+  animation: pulse 0.6s ease-in-out infinite;
+  background-color: #5fd4f1;
+  color: #fff8e7;
+  box-shadow: 0 0 15px rgba(45, 199, 238, 0.6);
+}
+
+/* ========================================
+   OVERLAYS DE MESSAGES
+   ======================================== */
+
+#exitButton {
+  position: absolute;
+  top: 5%;
+  right: 7%;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+}
+
+#exitButtonK {
+  position: absolute;
+  top: 5%;
+  right: 7%;
+  cursor: pointer;
+}
+
+#exitButtonC {
+  position: absolute;
+  top: 5%;
+  right: 4%;
+  cursor: pointer;
+  height: 80px;
+  width: 80px;
+}
+
+.keyToExit {
+  font-family: "Russo One", sans-serif;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border: 1px solid white;
+  border-radius: 4px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+#messageOverlayParchemin {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  background-color: rgba(0, 0, 0, 0.651);
+  color: #e4e4e4;
+  font-family: "Russo One", sans-serif;
+  font-size: 1.8rem;
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: inset 0 0 20px rgba(131, 130, 130, 0.8);
+  border: 3px solid #5fd4f1;
+}
+
+#messageOverlayParchemin button {
+  margin-bottom: 30px;
+  padding: 10px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 15px;
+  border: 2px solid #5fd4f1;
+  background-color: #000;
+  color: #e4e4e4;
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+#messageOverlayParchemin button:hover {
+  transform: scale(1.05);
+  background-color: #5fd4f1;
+  color: #e4e4e4;
+}
+
+#messageOverlayKey {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.651);
+  color: #e4e4e4;
+  font-family: "Russo One", sans-serif;
+  font-size: 1.8rem;
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: inset 0 0 20px rgba(131, 130, 130, 0.8);
+  border: 3px solid #5fd4f1;
+  z-index: 22;
+}
+
+#messageOverlayKey button {
+  margin-top: 20px;
+  padding: 10px 25px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 15px;
+  border: 2px solid #5fd4f1;
+  background-color: #000;
+  color: #e4e4e4;
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+#messageOverlayKey button:hover {
+  transform: scale(1.05);
+  background-color: #5fd4f1;
+  color: #e4e4e4;
+}
+
+#messageOverlayCoffre {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-height: 80%;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #e4e4e4;
+  font-family: "Russo One", sans-serif;
+  font-size: 1.4rem;
+  padding: 50px 40px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: inset 0 0 20px rgba(131, 130, 130, 0.8);
+  border: 3px solid #5fd4f1;
+  flex-direction: column;
+  gap: 30px;
+  line-height: 1.8;
+}
+
+#messageOverlayCoffre.show {
+  display: flex;
+}
+
+#coffreMessage {
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+/* ========================================
+   ÉCRAN DE FIN (RIDEAU)
+   ======================================== */
+
+#curtain {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #111;
+  transition: top 4s ease-in-out;
+  z-index: 27;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+#curtain.active {
+  top: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+.endMessage {
+  font-family: "Press Start 2P", system-ui;
+  color: #ffffff;
+  font-size: 2.5rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8%;
+  padding: 20px;
+}
+
+.heart svg {
+  width: 48px;
+  height: 48px;
+}
+
+.endButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 5%;
+}
+
+.endButtons .btn {
+  font-family: "Press Start 2P", system-ui;
+  font-size: 1.3rem;
+  padding: 12px 24px;
+  border-radius: 15px;
+  border: none;
+  background-color: #2dc7ee;
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  width: 300px;
+  transition: all 0.3s ease-in-out;
+}
+
+.endButtons .btn:hover {
+  background-color: #5fd4f1;
+  color: #fff8e7;
+  box-shadow: 0 0 15px rgba(45, 199, 238, 0.6);
+  transform: scale(1.1);
+}
+
+.openCVButton {
+  font-family: "Press Start 2P", system-ui;
+  font-size: 1.3rem;
+  padding: 12px 24px;
+  border-radius: 15px;
+  border: none;
+  background-color: #2dc7ee;
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  width: 350px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.openCVButton:hover {
+  background-color: #5fd4f1;
+  color: #fff8e7;
+  box-shadow: 0 0 15px rgba(45, 199, 238, 0.6);
+  transform: scale(1.1);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes pulse {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.controls {
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  padding: 0 30px;
+  display: none;
+  z-index: 10;
+}
+
+/* ========================================
+   MEDIA QUERIES (RESPONSIVE)
+   ======================================== */
+
+@media (max-width: 400px) {
+  .controls {
+    display: flex;
+    z-index: 10;
+  }
+
+  .game-container {
+    width: 100%;
+    height: 40vh;
+    border: none;
+    border-radius: 10px;
+    margin: 0;
+    box-shadow: none;
+    background-color: #000;
+    position: relative;
+    top: -20%; /* Déplace l'écran de jeu vers le haut de 20% de la hauteur du parent */
+  }
+
+
+  .directionPad {
+    grid-template-columns: 45px 45px 45px;
+    grid-template-rows: 45px 45px 45px;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .action-btn {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    margin: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  
+
+  #startScreen {
+    position: fixed;
+    inset: 0;
+    background-image: url("./img/startScreen.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+  }
+
+  .buttonMusic {
+    gap: 20px;
+  }
+
+  .game-title {
+    font-size: 1.5rem;
+    margin-top: 10%;
+  }
+
+  .character-choice {
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+  }
+
+  .character-choice button {
+    font-family: "Press Start 2P";
+    font-size: 0.7rem;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 3px solid #2dc7ee;
+    background: #fff8e7;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .character-choice button:hover {
+    background: #5fd4f1;
+    color: #fff8e7;
+    transform: scale(1.2);
+  }
+
+  #startGameBtn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    bottom: 20%;
+  }
+
+  #startGameBtn:hover {
+    background: #2dc7ee;
+    color: #fff8e7;
+    box-shadow: 0 0 15px rgba(45, 199, 238, 0.6);
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .game_and_button {
+    width: 100%;
+    height: 80vh;
+    padding: 0;
+  }
+
+  .title {
+    font-size: 2rem;
+    top: -20%;
+    position: relative;
+  }
+
+  .game-container {
+    width: 100%;
+    height: 40vh;
+    border: none;
+    border-radius: 10px;
+    margin: 0;
+    box-shadow: none;
+    background-color: #000;
+  }
+
+  #needInternship {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  #hamburger {
+    top: 24%;
+    left: 3%;
+    height: 30px;
+    width: 30px;
+    z-index: 26;
+  }
+
+  #hud {
+    top: 24%;
+    right: 3%;
+  }
+
+  #hud img {
+    top: 24%;
+    right: 3%;
+    width: 100px;
+    height: 30px;
+  }
+
+  #menu h2 {
+    font-size: 2.5rem;
+  }
+
+  .menu-section h3 {
+    font-size: 1.5rem;
+  }
+
+  .menu-section ul {
+    font-size: 1.2rem;
+  }
+
+  .menu-button {
+    gap: 20px;
+  }
+
+  .menu-button button {
+    width: 50%;
+    font-size: 1.2rem;
+  }
+
+  #messageOverlayParchemin,
+  #messageOverlayKey,
+  #messageOverlayCoffre {
+    font-size: 1.2rem;
+  }
+
+  #messageOverlayKey p,
+  #messageOverlayCoffre p,
+  #messageOverlayParchemin p {
+    font-size: 1rem;
+  }
+
+  .endMessage {
+    font-size: 1.2rem;
+  }
+
+  .heart svg {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 20%;
+    right: 50%;
+  }
+
+  .endButtons {
+    gap: 20px;
+    margin-top: 40%;
+  }
+
+  .endButtons .btn {
+    width: 200px;
+    font-size: 1rem;
+  }
+
+  .openCVButton {
+    width: 250px;
+    height: 65px;
+    font-size: 1rem;
+  }
+
+  .retourAccueil {
+    display: none;
+  }
+
+  .controls {
+    display: flex;
+    z-index: 10;
+  }
+
+  .directionPad {
+    display: grid;
+    grid-template-columns: 50px 50px 50px;
+    grid-template-rows: 50px 50px 50px;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 50px;
+    height: 50px;
+    background: #f5deb3;
+    border: 4px solid #000;
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: none;
+    box-shadow: 4px 4px 0 #000;
+    position: relative;
+  }
+
+  .btn.active {
+    background: #87ceeb;
+    box-shadow: 2px 2px 0 #000;
+    transform: translate(2px, 2px);
+  }
+
+  .action-btn {
+    width: 60px;
+    height: 60px;
+    background: #f5deb3;
+    border: 4px solid #000;
+    color: #000;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: none;
+    align-self: center;
+    box-shadow: 4px 4px 0 #000;
+  }
+
+  .action-btn.active {
+    background: #87ceeb;
+    box-shadow: 2px 2px 0 #000;
+    transform: translate(2px, 2px);
+  }
+
+  .btn-up {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .btn-left {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .btn-right {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .btn-down {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  body {
+    margin: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .game-title {
+    font-size: 2rem;
+  }
+
+  .character-choice button {
+    font-size: 0.9rem;
+    padding: 12px 18px;
+  }
+
+  #startGameBtn {
+    font-size: 1.2rem;
+    padding: 12px 25px;
+  }
+
+  .game_and_button {
+    width: 100%;
+    padding-bottom: 40px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .game-container {
+    width: 100%;
+    height: 65vh;
+    border: none;
+    border-radius: 10px;
+    background-color: #000;
+  }
+
+  #needInternship {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  #hamburger {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 17%;
+  }
+
+  #hud {
+    top: 17%;
+  }
+
+  #hud img {
+    width: 90px;
+  }
+
+  #menu h2 {
+    font-size: 3rem;
+  }
+
+  .menu-section h3 {
+    font-size: 1.8rem;
+  }
+
+  .menu-section ul {
+    font-size: 1.4rem;
+  }
+
+  .menu-button button {
+    width: 40%;
+    font-size: 1.3rem;
+  }
+
+  #messageOverlayParchemin,
+  #messageOverlayKey {
+    width: 65%;
+    font-size: 1.6rem;
+  }
+
+  #messageOverlayCoffre {
+    width: 65%;
+    font-size: 1.3rem;
+  }
+
+  .endMessage {
+    font-size: 1.5rem;
+  }
+
+  .heart svg {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 20%;
+    right: 50%;
+  }
+
+  .endButtons {
+    gap: 30px;
+    margin-top: 20%;
+  }
+
+  .endButtons .btn {
+    font-size: 1.2rem;
+    width: 280px;
+  }
+
+  .openCVButton {
+    font-size: 1.2rem;
+    width: 320px;
+  }
+
+  .retourAccueil {
+    font-size: 1.3rem;
+  }
+
+  .controls {
+    display: flex;
+    z-index: 10;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .game-title {
+    font-size: 2.5rem;
+  }
+
+  .character-choice button {
+    font-size: 1.1rem;
+  }
+
+  #startGameBtn {
+    font-size: 1.4rem;
+  }
+
+  .game_and_button {
+    width: 75%;
+    padding-bottom: 45px;
+  }
+
+  .title {
+    font-size: 2.3rem;
+  }
+
+  .game-container {
+    height: 68vh;
+    border: 8px solid #2dc7ee;
+  }
+
+  #hamburger {
+    height: 45px;
+    width: 45px;
+  }
+
+  #hud img {
+    width: 130px;
+  }
+
+  #menu h2 {
+    font-size: 3.2rem;
+  }
+
+  .menu-section h3 {
+    font-size: 1.9rem;
+  }
+
+  .menu-section ul {
+    font-size: 1.5rem;
+  }
+
+  .menu-button button {
+    width: 35%;
+    font-size: 1.4rem;
+  }
+
+  #messageOverlayParchemin,
+  #messageOverlayKey {
+    width: 60%;
+    font-size: 1.7rem;
+  }
+
+  #messageOverlayCoffre {
+    width: 60%;
+    font-size: 1.35rem;
+  }
+
+  .endMessage {
+    font-size: 2.2rem;
+  }
+
+  .heart svg {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 20%;
+    right: 50%;
+  }
+
+  .endButtons {
+    gap: 30px;
+    margin-top: 15%;
+  }
+
+  .endButtons .btn {
+    font-size: 1.25rem;
+    width: 290px;
+  }
+
+  .openCVButton {
+    font-size: 1.25rem;
+    width: 340px;
+  }
+
+  .retourAccueil {
+    font-size: 1.4rem;
+  }
+
+  .controls {
+    display: none;
+    z-index: 10;
+  }
+}
