@@ -212,7 +212,7 @@ demarrageButton.addEventListener("click", () => {
 
 // ======================================
 // L'EXPORT JUSTE POUR LE RESET DU BOUTON POWER
-// ======================================
+// =====================================
 export function resetGameFromPower() {
   const reset = resetToMenu(
     menu,
@@ -222,13 +222,13 @@ export function resetGameFromPower() {
     boundaries,
     collisionsMap,
     offset,
-    inventory
+    inventory,
+    false // ne pas relancer la musique
   );
   gameState = reset.gameState;
   personnageChoisi = reset.personnageChoisi;
   player = reset.player;
 }
-
 // ==========================================
 // BOUCLE PRINCIPALE DU JEU (ANIMATION)
 // ==========================================

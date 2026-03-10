@@ -103,21 +103,19 @@ const audioManager = {
     if (currentMusic === "menu" && sounds.menu.playing()) return;
     sounds.game.stop();
     sounds.end.stop();
+    sounds.menu.stop();
     sounds.menu.volume(0);
     sounds.menu.play();
     sounds.menu.fade(0, DEFAULT_VOLUMES.menu, 500);
     currentMusic = "menu";
   },
-
   playItemSound() {
     if (!audioUnlocked) return;
     sounds.itemCollect.play();
   },
 
   stopAll() {
-    sounds.menu.stop();
-    sounds.game.stop();
-    sounds.end.stop();
+    Howler.stop();
     currentMusic = null;
   },
 

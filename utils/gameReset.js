@@ -1,16 +1,7 @@
-// ==========================================
-// GESTION DE LA RÉINITIALISATION DU JEU
-// ==========================================
-
 import { Boundary } from "../classes/boundary.js";
-import { CONFIG } from "./config.js";
-import { collisions } from "../data/collisions.js";
-import audioManager from "./audio.js";
 import { resetUI } from "./ui.js";
+import audioManager from "./audio.js";
 
-// ==========================================
-// RÉINITIALISER LE JEU ET RETOURNER AU MENU
-// ==========================================
 export function resetToMenu(
   menu,
   keys,
@@ -19,7 +10,8 @@ export function resetToMenu(
   boundaries,
   collisionsMap,
   offset,
-  inventory
+  inventory,
+  playMusic = true,
 ) {
   // Réinitialiser l'état du menu
   menu.state = "PRINCIPAL";
@@ -33,7 +25,7 @@ export function resetToMenu(
   // Réinitialiser la position de la map (background)
   background.position.x = offset.x;
   background.position.y = offset.y;
-  
+
   // Réinitialiser la position du foreground
   foreground.position.x = offset.x + 432;
   foreground.position.y = offset.y + 150;
@@ -50,11 +42,11 @@ export function resetToMenu(
     });
   });
 
-  // Vider l'inventairere
+  // Vider l'inventaire
   inventory.viderInventaire();
-  
-  // Retour à la musique du menu
-  // audioManager.backToMenu();
+
+  // Retour à la musique du menu uniquement si demandé
+  if (playMusic) audioManager.backToMenu();
 
   // Réinitialiser l'interface utilisateur
   resetUI();
@@ -63,6 +55,6 @@ export function resetToMenu(
   return {
     gameState: "MENU",
     personnageChoisi: null,
-    player: null
+    player: null,
   };
 }

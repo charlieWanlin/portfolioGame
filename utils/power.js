@@ -41,12 +41,18 @@ const handlePowerToggle = () => {
 
     setTimeout(() => {
       resetGameFromPower();
+      console.log("ecranNoir element:", ecranNoir);
+      console.log("display avant:", ecranNoir.style.display);
+      console.log("opacity avant:", ecranNoir.style.opacity);
+
+      ecranNoir.style.transition = "none";
+      ecranNoir.style.opacity = "0";
       ecranNoir.style.display = "block";
-      ecranNoir.style.transition = "opacity 0.8s";
       setTimeout(() => {
+        ecranNoir.style.transition = "opacity 0.8s";
         ecranNoir.style.opacity = "1";
         isShuttingDown = false;
-      }, 10);
+      }, 50);
     }, 2000);
   }
 };
